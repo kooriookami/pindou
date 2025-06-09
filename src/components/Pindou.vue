@@ -8,7 +8,7 @@
       </el-form-item>
       <el-form-item label="色号">
         <div style="display: flex;gap: 5px">
-          <div v-if="form.mardColor" class="mard-block" :style="mardBlockStyle">
+          <div v-if="form.mardColor && myPalette.length" class="mard-block" :style="mardBlockStyle">
             <span>{{ form.mardName }}</span>
           </div>
           <el-button type="primary" link @click="handlePick">已选 {{ myPalette.length }} 色，点击管理</el-button>
@@ -20,7 +20,7 @@
     </el-form>
 
     <PalettePreview v-model:visible="previewVisible" />
-    <PickColor v-model:visible="pickVisible" @update:visible="updateMyPalette" />
+    <PickColor v-model:visible="pickVisible" @update:visible="changeColor" />
   </div>
 </template>
 
@@ -28,6 +28,7 @@
 import { computed, reactive, ref } from 'vue';
 import chroma from 'chroma-js';
 import palette from '../assets/palette';
+import useMyPalette from '@/hooks/useMyPalette';
 import PalettePreview from '@/components/PalettePreview.vue';
 import PickColor from '@/components/PickColor.vue';
 
@@ -39,7 +40,8 @@ const form = reactive({
 
 const previewVisible = ref(false);
 const pickVisible = ref(false);
-const myPalette = ref([]);
+
+const { myPalette } = useMyPalette();
 
 const changeColor = () => {
   if (!form.color) {
@@ -75,17 +77,6 @@ const handlePreview = () => {
 const handlePick = () => {
   pickVisible.value = true;
 };
-
-const updateMyPalette = () => {
-  try {
-    myPalette.value = JSON.parse(localStorage.getItem('myPalette')) || palette.map(item => item.name);
-    changeColor();
-  } catch {
-
-  }
-};
-
-updateMyPalette();
 </script>
 
 <style lang="scss" scoped>

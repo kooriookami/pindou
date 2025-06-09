@@ -12,7 +12,6 @@
           multiple
           filterable
           collapse-tags
-          @change="changeMyPalette"
         >
           <template #header>
             <el-button type="primary" link @click="selectAll">点击全选</el-button>
@@ -32,7 +31,7 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button @click="closeDialog">关闭</el-button>
+      <el-button type="primary" @click="closeDialog">确定</el-button>
     </template>
   </el-dialog>
 </template>
@@ -40,33 +39,26 @@
 <script setup>
 import { reactive } from 'vue';
 import palette from '../assets/palette';
+import useMyPalette from '@/hooks/useMyPalette';
 
-const emit = defineEmits(['update:visible']);
+const emit = defineEmits(['update:visible', 'update']);
 const props = defineProps({
   visible: Boolean,
 });
 
+const { myPalette } = useMyPalette();
+
 const form = reactive({
-  myPalette: [],
+  myPalette: myPalette.value,
 });
 
-try {
-  form.myPalette = JSON.parse(localStorage.getItem('myPalette')) || palette.map(item => item.name);
-} catch {
-
-}
-
 const closeDialog = () => {
+  myPalette.value = form.myPalette;
   emit('update:visible', false);
-};
-
-const changeMyPalette = () => {
-  localStorage.setItem('myPalette', JSON.stringify(form.myPalette));
 };
 
 const selectAll = () => {
   form.myPalette = palette.map(item => item.name);
-  changeMyPalette();
 };
 </script>
 
