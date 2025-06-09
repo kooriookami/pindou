@@ -1,5 +1,5 @@
 <template>
-  <Pindou/>
+  <Pindou />
 </template>
 
 <script setup>
