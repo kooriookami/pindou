@@ -12,7 +12,6 @@
           multiple
           filterable
           collapse-tags
-          clearable
           @change="changeMyPalette"
         >
           <template #header>
