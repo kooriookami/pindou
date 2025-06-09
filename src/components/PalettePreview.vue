@@ -41,7 +41,6 @@ const closeDialog = () => {
 };
 
 const paletteItemStyle = item => {
-  console.log(chroma(item.color).oklch());
   const l = chroma(item.color).oklch()[0];
   return {
     background: item.color,

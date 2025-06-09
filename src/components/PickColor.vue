@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     :model-value="visible"
-    title="挑选色号"
+    title="色号管理"
     width="500px"
     :before-close="closeDialog"
   >
