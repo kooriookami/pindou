@@ -38,7 +38,7 @@
 
 <script setup>
 import { reactive } from 'vue';
-import palette from '../assets/palette';
+import palette from '@/assets/palette';
 import useMyPalette from '@/hooks/useMyPalette';
 
 const emit = defineEmits(['update:visible', 'update']);

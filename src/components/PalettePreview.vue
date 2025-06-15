@@ -16,14 +16,12 @@
       <el-checkbox v-model="showMine">只看我的</el-checkbox>
     </div>
     <div class="palette-content">
-      <div
+      <MardBlock
         v-for="item in sortedPalette"
         :key="item.name"
-        class="palette-item"
-        :style="paletteItemStyle(item)"
-      >
-        <span>{{ item.name }}</span>
-      </div>
+        :size="40"
+        :mard-name="item.name"
+      />
     </div>
   </el-dialog>
 </template>
@@ -31,8 +29,9 @@
 <script setup>
 import chroma from 'chroma-js';
 import { computed, ref } from 'vue';
-import palette from '../assets/palette';
+import palette from '@/assets/palette';
 import useMyPalette from '@/hooks/useMyPalette';
+import MardBlock from '@/components/MardBlock.vue';
 
 const emit = defineEmits(['update:visible']);
 const props = defineProps({
@@ -45,14 +44,6 @@ const showMine = ref(false);
 
 const closeDialog = () => {
   emit('update:visible', false);
-};
-
-const paletteItemStyle = item => {
-  const l = chroma(item.color).oklch()[0];
-  return {
-    background: item.color,
-    color: l < 0.7 ? 'white' : 'black',
-  };
 };
 
 const sortedPalette = computed(() => {
@@ -86,15 +77,6 @@ const sortedPalette = computed(() => {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-
-  .palette-item {
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 </style>
 
